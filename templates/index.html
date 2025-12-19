@@ -13,11 +13,11 @@
     </header>
     <div class="container" id="app">
         <div class="row py-5">
-            <div class="col-md-6">
-                {% if len(products) == 0 %}
-                    <div class="alert alert-info">No prodcuts available products in the shop</div>
+            <div class="col-md-8">
+                {% if not products %}
+                    <div class="alert alert-info">No products available products in the shop</div>
                 {% else %}
-                    <table>
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Product ID</th>
@@ -29,17 +29,18 @@
                         <tbody>
                     {% for product in products %}
                         <tr>
-                            <td>{% product.id %}</td>
+                            <td>{{ product.id }}</td>
                             <td>{{ product.name }}</td>
                             <td>{{ product.description }}</td>
                             <td>{{ product.price }}</td>
 
                         </tr>
-                    {% end for %}
+                    {% endfor %}
                         </tbody>
                     </table>
+                {% endif %}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h3>Create a new product</h3>
                 <form action="">
                     <div class="form-group my-3">
