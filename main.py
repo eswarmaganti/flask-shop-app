@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, url_for, redirect
 from flask_mysqldb import MySQL
 from MySQLdb.cursors import DictCursor
 import os
@@ -26,3 +26,15 @@ def index():
     products =  cursor.fetchall()
     cursor.close()
     return render_template('index.html', products=products)
+
+@app.route('/add_product', methods=["POST"])
+def add_product():
+    product_name = request.form.get('name')
+    product_desc = request.form.get('description')
+    product_price = request.form.get('price')
+
+    cursor = mysql.connection.cursor()
+    cursor.execute(''' INSERT INTO shop.products (name, description, price) VALUES (%s,%s,%s)''', (product_name, product_desc, product_price))
+    mysql.connection.commit()
+    cursor.close()
+    return redirect(url_for("index"))
